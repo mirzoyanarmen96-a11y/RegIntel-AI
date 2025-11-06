@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Contract Analyzer | Legal AI Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 80px;
+            padding: 40px 0;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon i {
+            font-size: 30px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            margin-bottom: 80px;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h3 {
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .step-content p {
+            color: var(--gray);
+        }
+
+        /* Detailed How It Works Section */
+        .detailed-how-it-works {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 80px;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .process-card {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .process-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 30px;
+        }
+
+        .process-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .process-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 60px 40px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .cta .btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Main Content (Analysis Section) */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .law-input {
+            margin-bottom: 20px;
+        }
+
+        .law-input textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            resize: vertical;
+            min-height: 120px;
+            font-size: 15px;
+        }
+
+        .law-input textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .file-actions button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-actions button:hover {
+            color: var(--primary);
+        }
+
+        .impact-summary {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .impact-card {
+            flex: 1;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            color: white;
+        }
+
+        .impact-none {
+            background-color: var(--success);
+        }
+
+        .impact-moderate {
+            background-color: var(--warning);
+        }
+
+        .impact-high {
+            background-color: var(--danger);
+        }
+
+        .impact-card h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .impact-card p {
+            font-size: 14px;
+        }
+
+        .clause-list {
+            margin-top: 20px;
+        }
+
+        .clause-item {
+            padding: 15px;
+            border-left: 4px solid var(--gray-light);
+            margin-bottom: 15px;
+            background-color: #f8fafc;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .clause-item.high {
+            border-left-color: var(--danger);
+        }
+
+        .clause-item.moderate {
+            border-left-color: var(--warning);
+        }
+
+        .clause-item.none {
+            border-left-color: var(--success);
+        }
+
+        .clause-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .clause-title {
+            font-weight: 600;
+        }
+
+        .clause-impact {
+            font-size: 14px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .impact-high .clause-impact {
+            background-color: var(--danger);
+        }
+
+        .impact-moderate .clause-impact {
+            background-color: var(--warning);
+        }
+
+        .impact-none .clause-impact {
+            background-color: var(--success);
+        }
+
+        .clause-text {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .clause-explanation {
+            font-size: 14px;
+            padding: 10px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Enhanced Chat Container */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background-color: var(--gray-light);
+            color: var(--dark);
+            border-bottom-left-radius: 5px;
+        }
+
+        /* Enhanced Chat Table */
+        .chat-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 14px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 0 0 1px var(--gray-light);
+        }
+
+        .chat-table th {
+            background-color: var(--primary);
+            color: white;
+            text-align: left;
+            padding: 12px 15px;
+            font-weight: 600;
+        }
+
+        .chat-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .chat-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .chat-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .impact-cell {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .impact-high-cell {
+            background-color: var(--danger);
+        }
+
+        .impact-moderate-cell {
+            background-color: var(--warning);
+        }
+
+        .impact-none-cell {
+            background-color: var(--success);
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input input:focus {
+            border-color: var(--primary);
+        }
+
+        .chat-input button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-input button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .suggested-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .suggested-question {
+            background-color: white;
+            border: 1px solid var(--gray-light);
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .suggested-question:hover {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Most Asked Questions Section */
+        .most-asked {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .most-asked h4 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: var(--dark);
+        }
+
+        .most-asked-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .most-asked-question {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background-color: #f8fafc;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .most-asked-question:hover {
+            background-color: var(--gray-light);
+        }
+
+        .most-asked-question i {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .most-asked-question span {
+            font-size: 14px;
+        }
+
+        /* Footer Section */
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            text-decoration: none;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--gray-light);
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        footer {
+            background-color: white;
+            padding: 50px 0 30px;
+            margin-top: 60px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        /* Hide sections initially */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Legal Updates Section */
+        .legal-updates {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .legal-updates h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .update-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .update-item:last-child {
+            border-bottom: none;
+        }
+
+        .update-item i {
+            color: var(--primary);
+        }
+
+        .update-highlight {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-footer {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .form-footer p {
+            margin-top: 15px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .impact-summary {
+                flex-direction: column;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .btn {
+                flex: 1;
+                max-width: 150px;
+            }
+
+            .step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .chat-table {
+                font-size: 12px;
+            }
+
+            .chat-table th, .chat-table td {
+                padding: 8px 10px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-balance-scale"></i>
+                <span>Smart Contract Analyzer</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-section="how-it-works">How It Works</a></li>
+                    <li><a href="#" class="nav-link" data-section="analyzer">Analyzer</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="login-btn">Log In</button>
+                <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+            </div>
+        </header>
+
+        <!-- Sign Up Modal -->
+        <div class="modal" id="signup-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Create an Account</h2>
+                    <button class="close-btn" id="close-signup">&times;</button>
+                </div>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="full-name">Full Name</label>
+                        <input type="text" id="full-name" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company (Optional)</label>
+                        <input type="text" id="company" class="form-control" placeholder="Enter your company name">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" required>
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                    <div class="form-footer">
+                        <p>Already have an account? <a href="#" id="login-link">Log In</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div class="modal" id="login-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Log In</h2>
+                    <button class="close-btn" id="close-login">&times;</button>
+                </div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox">
+                            Remember me
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Log In</button>
+                    <div class="form-footer">
+                        <p>Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Understand How New Laws Affect Your Contracts</h1>
+                    <p>Our AI-powered platform instantly analyzes your contracts against new Armenian regulations, saving you time and legal costs.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" id="try-now-btn">Try It Now</button>
+                        <button class="btn btn-outline">Watch Demo</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 400px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+                        Smart Contract Analyzer Dashboard
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-updates">
+                <h3><i class="fas fa-newspaper"></i> Armenian Legal Updates</h3>
+                <div class="update-item">
+                    <i class="fas fa-database"></i>
+                    <span>Official Legal Database</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Recent Tax Law Changes</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-briefcase"></i>
+                    <span class="update-highlight">Labor Law Amendments*</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Consumer Protection Updates</span>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <h2>Why Use Our Contract Analyzer?</h2>
+                <p>Stay compliant with Armenia's frequently changing regulations without the high cost of legal consultations</p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Instant Analysis</h3>
+                    <p>Get immediate insights into how new laws impact your contracts without waiting days for legal review.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Cost Effective</h3>
+                    <p>Save on expensive legal fees with our affordable subscription plans designed for businesses of all sizes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Stay Compliant</h3>
+                    <p>Ensure your contracts remain valid and enforceable as regulations change in Armenia.</p>
+                </div>
+            </div>
+
+            <div class="cta">
+                <h2>Ready to Protect Your Contracts?</h2>
+                <p>Join hundreds of Armenian businesses that use our platform to stay compliant with changing regulations</p>
+                <button class="btn">Get Started Today</button>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="section">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Our simple three-step process makes legal compliance accessible to everyone</p>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Upload Your Contract</h3>
+                        <p>Simply upload your contract document in PDF, JPG, or PNG format. Our system uses OCR technology to extract text from images and scanned documents.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Input the New Law</h3>
+                        <p>Paste the text of the new regulation or select from our database of recent Armenian laws. Our system stays updated with the latest legal changes.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Get Your Analysis</h3>
+                        <p>Receive a comprehensive report highlighting affected clauses with impact levels and plain-language explanations. Chat with our AI assistant for further clarification.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detailed-how-it-works">
+                <div class="section-title">
+                    <h2>Detailed Process</h2>
+                    <p>Our advanced AI technology ensures accurate and comprehensive contract analysis</p>
+                </div>
+
+                <div class="process-grid">
+                    <div class="process-card">
+                        <div class="process-icon">
+                            <i class="fas fa-file-upload"></i>
+                        </div>
+                        <h3>Document Processing</h3>
+                        <p>We extract text from your documents using advanced OCR technology, even from scanned contracts and images.</p>
+                    </div>
+                    <div class="process-card">
+                        <div class="process-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Legal Analysis</h3>
+                        <p>Our AI compares your contract clauses with the latest Armenian regulations to identify potential conflicts.</p>
+                    </div>
+                    <div class="process-card">
+                        <div class="process-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>Impact Assessment</h3>
+                        <p>We evaluate the severity of each conflict and provide clear impact ratings (None, Moderate, High).</p>
+                    </div>
+                    <div class="process-card">
+                        <div class="process-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Interactive Assistance</h3>
+                        <p>Chat with our AI assistant to get detailed explanations and suggestions for resolving issues.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-updates">
+                <h3><i class="fas fa-newspaper"></i> Armenian Legal Updates</h3>
+                <div class="update-item">
+                    <i class="fas fa-database"></i>
+                    <span>Official Legal Database</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Recent Tax Law Changes</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-briefcase"></i>
+                    <span class="update-highlight">Labor Law Amendments*</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Consumer Protection Updates</span>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 60px;">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Is my data secure?</h3>
+                    <p>Yes, we use enterprise-grade encryption and never store your contracts longer than necessary for analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>What types of contracts can I analyze?</h3>
+                    <p>Our system works with employment agreements, service contracts, rental agreements, and most common business contracts.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Can I use this instead of a lawyer?</h3>
+                    <p>Our tool provides insights but doesn't replace professional legal advice for complex situations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analyzer Section -->
+        <section id="analyzer" class="section">
+            <div class="legal-updates">
+                <h3><i class="fas fa-newspaper"></i> Armenian Legal Updates</h3>
+                <div class="update-item">
+                    <i class="fas fa-database"></i>
+                    <span>Official Legal Database</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Recent Tax Law Changes</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-briefcase"></i>
+                    <span class="update-highlight">Labor Law Amendments*</span>
+                </div>
+                <div class="update-item">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Consumer Protection Updates</span>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">Contract Analysis</div>
+                        <div>
+                            <button class="btn btn-outline" style="padding: 8px 15px;">
+                                <i class="fas fa-history"></i> History
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tabs">
+                            <div class="tab active" data-tab="upload">Upload Contract</div>
+                            <div class="tab" data-tab="law">Input Law</div>
+                            <div class="tab" data-tab="results">Analysis Results</div>
+                        </div>
+
+                        <div class="tab-content active" id="upload-tab">
+                            <div class="upload-area" id="drop-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <h3>Upload Your Contract</h3>
+                                <p>Drag & drop your contract file here or click to browse</p>
+                                <p>Supported formats: PDF, JPG, PNG</p>
+                                <button class="btn btn-primary" style="margin-top: 15px;">
+                                    <i class="fas fa-file-upload"></i> Select File
+                                </button>
+                            </div>
+
+                            <div class="file-list">
+                                <div class="file-item">
+                                    <div class="file-info">
+                                        <i class="fas fa-file-pdf file-icon"></i>
+                                        <div>
+                                            <div>Employment_Contract.pdf</div>
+                                            <div style="font-size: 12px; color: var(--gray);">Uploaded 5 minutes ago</div>
+                                        </div>
+                                    </div>
+                                    <div class="file-actions">
+                                        <button><i class="fas fa-eye"></i></button>
+                                        <button><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="law-tab">
+                            <div class="law-input">
+                                <label for="law-text">Enter the new law or regulation:</label>
+                                <textarea id="law-text" placeholder="Paste the text of the new law or regulation here..."></textarea>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-upload"></i> Upload Law Document
+                                </button>
+                                <button class="btn btn-primary" id="analyze-btn">
+                                    <i class="fas fa-bolt"></i> Analyze Impact
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="results-tab">
+                            <div class="impact-summary">
+                                <div class="impact-card impact-none">
+                                    <h3>8</h3>
+                                    <p>No Impact</p>
+                                </div>
+                                <div class="impact-card impact-moderate">
+                                    <h3>3</h3>
+                                    <p>Moderate Impact</p>
+                                </div>
+                                <div class="impact-card impact-high">
+                                    <h3>2</h3>
+                                    <p>High Impact</p>
+                                </div>
+                            </div>
+
+                            <div class="clause-list">
+                                <div class="clause-item high">
+                                    <div class="clause-header">
+                                        <div class="clause-title">Clause 4.2: Termination Conditions</div>
+                                        <div class="clause-impact">High Impact</div>
+                                    </div>
+                                    <div class="clause-text">
+                                        "Either party may terminate this agreement with 30 days written notice for any reason."
+                                    </div>
+                                    <div class="clause-explanation">
+                                        <strong>Impact:</strong> The new law requires a 60-day notice period for termination, making your 30-day clause non-compliant.
+                                    </div>
+                                </div>
+
+                                <div class="clause-item moderate">
+                                    <div class="clause-header">
+                                        <div class="clause-title">Clause 7.5: Payment Terms</div>
+                                        <div class="clause-impact">Moderate Impact</div>
+                                    </div>
+                                    <div class="clause-text">
+                                        "All payments are due within 45 days of invoice receipt."
+                                    </div>
+                                    <div class="clause-explanation">
+                                        <strong>Impact:</strong> The new law limits payment terms to 30 days for small businesses, which may apply to some of your contractors.
+                                    </div>
+                                </div>
+
+                                <div class="clause-item none">
+                                    <div class="clause-header">
+                                        <div class="clause-title">Clause 2.1: Confidentiality</div>
+                                        <div class="clause-impact">No Impact</div>
+                                    </div>
+                                    <div class="clause-text">
+                                        "Both parties agree to maintain the confidentiality of proprietary information..."
+                                    </div>
+                                    <div class="clause-explanation">
+                                        <strong>Impact:</strong> This clause remains compliant with the new regulations.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">AI Legal Assistant</div>
+                        <div>
+                            <button class="btn btn-outline" style="padding: 5px 10px; font-size: 12px;">
+                                <i class="fas fa-redo"></i> New Chat
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel-body" style="padding: 0;">
+                        <div class="chat-container">
+                            <div class="chat-messages">
+                                <div class="message bot">
+                                    Hello! I'm your AI legal assistant. I can help you understand how the new laws affect your contract. What would you like to know?
+                                </div>
+                                <div class="message user">
+                                    Can you show me a summary of the affected clauses?
+                                </div>
+                                <div class="message bot">
+                                    <p>Here's a summary of how the new law affects your contract:</p>
+                                    <table class="chat-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Clause</th>
+                                                <th>Impact</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>4.2: Termination</td>
+                                                <td><span class="impact-cell impact-high-cell">High</span></td>
+                                                <td>Notice period needs extension from 30 to 60 days</td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.5: Payment Terms</td>
+                                                <td><span class="impact-cell impact-moderate-cell">Moderate</span></td>
+                                                <td>Payment terms may need adjustment for small businesses</td>
+                                            </tr>
+                                            <tr>
+                                                <td>9.3: Liability</td>
+                                                <td><span class="impact-cell impact-none-cell">None</span></td>
+                                                <td>No changes needed for liability clauses</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11.2: Dispute Resolution</td>
+                                                <td><span class="impact-cell impact-moderate-cell">Moderate</span></td>
+                                                <td>New mandatory mediation step required</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="margin-top: 10px;">Would you like me to explain any of these in more detail?</p>
+                                </div>
+                                <div class="message user">
+                                    What's the deadline for making changes?
+                                </div>
+                                <div class="message bot">
+                                    The new law takes effect on November 15, 2023. You have 90 days from that date to make your contracts compliant. I recommend addressing the high-impact clauses first.
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" placeholder="Ask a question about your contract...">
+                                <button><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                            <div class="suggested-questions">
+                                <div class="suggested-question">What's the deadline for making changes?</div>
+                                <div class="suggested-question">Can you suggest new wording for Clause 4.2?</div>
+                                <div class="suggested-question">Are there any penalties for non-compliance?</div>
+                                <div class="suggested-question">How does this affect my liability?</div>
+                            </div>
+                            <div class="most-asked">
+                                <h4>Most Asked Questions</h4>
+                                <div class="most-asked-questions">
+                                    <div class="most-asked-question">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>Does this law cancel my entire contract?</span>
+                                    </div>
+                                    <div class="most-asked-question">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>What's the deadline for compliance?</span>
+                                    </div>
+                                    <div class="most-asked-question">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>Can you suggest new wording for affected clauses?</span>
+                                    </div>
+                                    <div class="most-asked-question">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>What are the penalties for non-compliance?</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Armenian Legal Updates</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-database"></i> Official Legal Database</a></li>
+                        <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Recent Tax Law Changes</a></li>
+                        <li><a href="#"><i class="fas fa-briefcase"></i> Labor Law Amendments</a></li>
+                        <li><a href="#"><i class="fas fa-user-shield"></i> Consumer Protection Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-gavel"></i> Find a Lawyer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 Legal Contract Analyzer. All rights reserved. This tool provides informational analysis only and does not constitute legal advice.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Navigation between sections
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set home as active by default
+            showSection('home');
+            
+            // Add click event listeners to navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetSection = this.getAttribute('data-section');
+                    showSection(targetSection);
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+
+            // "Try It Now" button functionality
+            document.getElementById('try-now-btn').addEventListener('click', function() {
+                showSection('analyzer');
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                document.querySelector('[data-section="analyzer"]').classList.add('active');
+            });
+
+            // Tab functionality for analyzer
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+
+            // Analyze button functionality
+            document.getElementById('analyze-btn').addEventListener('click', function() {
+                // Show results tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                document.querySelector('[data-tab="results"]').classList.add('active');
+                document.getElementById('results-tab').classList.add('active');
+            });
+
+            // Chat functionality
+            const chatInput = document.querySelector('.chat-input input');
+            const chatMessages = document.querySelector('.chat-messages');
+            
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            document.querySelector('.chat-input button').addEventListener('click', sendMessage);
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Add user message
+                    const userMessage = document.createElement('div');
+                    userMessage.classList.add('message', 'user');
+                    userMessage.textContent = message;
+                    chatMessages.appendChild(userMessage);
+                    
+                    // Clear input
+                    chatInput.value = '';
+                    
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    // Simulate bot response after a delay
+                    setTimeout(function() {
+                        const botMessage = document.createElement('div');
+                        botMessage.classList.add('message', 'bot');
+                        botMessage.textContent = getBotResponse(message);
+                        chatMessages.appendChild(botMessage);
+                        
+                        // Scroll to bottom
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 1000);
+                }
+            }
+            
+            function getBotResponse(message) {
+                const responses = [
+                    "Based on my analysis, the new law affects two clauses in your contract. Would you like me to explain the specific impacts?",
+                    "I recommend consulting with a legal professional for precise wording, but I can suggest some general improvements to make your contract compliant.",
+                    "The deadline for compliance is 90 days from the law's effective date, which is November 15, 2023.",
+                    "Your contract remains valid, but the non-compliant clauses may be unenforceable if not updated.",
+                    "The penalties for non-compliance include fines of up to 500,000 AMD for businesses and possible contract invalidation for the affected clauses."
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            // Suggested questions functionality
+            document.querySelectorAll('.suggested-question').forEach(question => {
+                question.addEventListener('click', function() {
+                    chatInput.value = this.textContent;
+                    sendMessage();
+                });
+            });
+
+            // Most asked questions functionality
+            document.querySelectorAll('.most-asked-question').forEach(question => {
+                question.addEventListener('click', function() {
+                    chatInput.value = this.querySelector('span').textContent;
+                    sendMessage();
+                });
+            });
+            
+            // File upload area interaction
+            const dropArea = document.getElementById('drop-area');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.style.borderColor = 'var(--primary)';
+                dropArea.style.backgroundColor = 'rgba(37, 99, 235, 0.05)';
+            }
+            
+            function unhighlight() {
+                dropArea.style.borderColor = 'var(--gray-light)';
+                dropArea.style.backgroundColor = 'transparent';
+            }
+            
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            function handleFiles(files) {
+                // In a real app, you would process the files here
+                alert(`File "${files[0].name}" uploaded successfully!`);
+            }
+
+            // Modal functionality
+            const signupBtn = document.getElementById('signup-btn');
+            const loginBtn = document.getElementById('login-btn');
+            const signupModal = document.getElementById('signup-modal');
+            const loginModal = document.getElementById('login-modal');
+            const closeSignup = document.getElementById('close-signup');
+            const closeLogin = document.getElementById('close-login');
+            const signupForm = document.getElementById('signup-form');
+            const loginForm = document.getElementById('login-form');
+            const signupLink = document.getElementById('signup-link');
+            const loginLink = document.getElementById('login-link');
+
+            // Open signup modal
+            signupBtn.addEventListener('click', function() {
+                signupModal.classList.add('active');
+            });
+
+            // Open login modal
+            loginBtn.addEventListener('click', function() {
+                loginModal.classList.add('active');
+            });
+
+            // Close signup modal
+            closeSignup.addEventListener('click', function() {
+                signupModal.classList.remove('active');
+            });
+
+            // Close login modal
+            closeLogin.addEventListener('click', function() {
+                loginModal.classList.remove('active');
+            });
+
+            // Switch to login from signup
+            loginLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                signupModal.classList.remove('active');
+                loginModal.classList.add('active');
+            });
+
+            // Switch to signup from login
+            signupLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginModal.classList.remove('active');
+                signupModal.classList.add('active');
+            });
+
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === signupModal) {
+                    signupModal.classList.remove('active');
+                }
+                if (e.target === loginModal) {
+                    loginModal.classList.remove('active');
+                }
+            });
+
+            // Form submission handlers
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real app, you would send the data to a server here
+                alert('Thank you for signing up! This is just a demo, so no data was actually saved.');
+                signupModal.classList.remove('active');
+                // Reset form
+                signupForm.reset();
+            });
+
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real app, you would send the data to a server here
+                alert('Login successful! This is just a demo, so no actual authentication occurred.');
+                loginModal.classList.remove('active');
+                // Reset form
+                loginForm.reset();
+            });
+        });
+
+        // Function to show specific section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
